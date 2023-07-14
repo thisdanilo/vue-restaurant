@@ -46,9 +46,19 @@
       </div>
       <div class="footer-info">
         <p>
-          &copy; <span id="displayYear"></span> Todos os direitos reservados
+          &copy; <span id="displayYear"></span> Todos os direitos reservados - <span>{{ currentYear }}</span>
         </p>
       </div>
     </div>
   </footer>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      currentYear: new Date().getFullYear(),
+    };
+  },
+};
+</script>
