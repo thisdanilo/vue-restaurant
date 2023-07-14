@@ -1,19 +1,22 @@
 <template>
-  <section class="offer_section layout_padding-bottom">
+  <section class="offer_section layout_padding-bottom" id="restaurant">
     <div class="offer_container">
       <div class="container">
+        <div class="heading_container heading_center">
+          <h2>Restaurantes</h2>
+        </div>
         <div class="row">
-          <template v-for="restaurant in restaurants" :key="restaurant.id">
+          <template v-for="(restaurant, index) in restaurants" :key="index">
             <div class="col-md-6">
               <div class="box">
                 <div class="img-box">
-                  <img :src="restaurant.image"/>
+                  <img :src="restaurant.image" />
                 </div>
                 <div class="detail-box">
                   <h5>{{ restaurant.legal_name }}</h5>
                   <h6>Restaurante</h6>
                   <a href="#">
-                    Peça o seu
+                    Faça seu pedido
                     <i class="fa fa-whatsapp" aria-hidden="true"></i>
                   </a>
                 </div>
@@ -38,7 +41,7 @@ export default {
 
   async mounted() {
     try {
-      const { data } = await http.get('restaurantes');
+      const { data } = await http.get("restaurantes");
 
       const items = data;
 
@@ -47,7 +50,6 @@ export default {
       console.log(error);
     }
   },
-  
 };
 </script>
 

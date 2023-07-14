@@ -8,7 +8,7 @@
       <ul class="filters_menu">
         <li class="active" data-filter="*">Todos</li>
 
-        <template v-for="product in products" :key="product.id">
+        <template v-for="(product, index) in products" :key="index">
           <li :data-filter="'.' + product.category.id">
             {{ product.category.name }}
           </li>
@@ -17,7 +17,7 @@
 
       <div class="filters-content">
         <div class="row grid">
-          <template v-for="product in products" :key="product.id">
+          <template v-for="(product, index) in products" :key="index">
             <div :class="'col-sm-6 col-lg-4 all ' + product.category.id">
               <div class="box">
                 <div>
