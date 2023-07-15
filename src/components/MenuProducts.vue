@@ -3,22 +3,20 @@
     <div class="container">
       <div class="heading_container heading_center">
         <h2>Menu</h2>
+        <div class="col-12 mt-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Pesquise um produto"
+            @keyup="search"
+          />
+        </div>
       </div>
-
-      <ul class="filters_menu">
-        <li class="active" data-filter="*">Todos</li>
-
-        <template v-for="(product, index) in products" :key="index">
-          <li :data-filter="'.' + product.category.id">
-            {{ product.category.name }}
-          </li>
-        </template>
-      </ul>
 
       <div class="filters-content">
         <div class="row grid">
           <template v-for="(product, index) in products" :key="index">
-            <div :class="'col-sm-6 col-lg-4 all ' + product.category.id">
+            <div class="col-sm-6 col-lg-4 all">
               <div class="box">
                 <div>
                   <div class="img-box">
@@ -47,10 +45,9 @@
               </div>
             </div>
           </template>
+
+          <div class="mt-3" v-html="productNotFound"></div>
         </div>
-      </div>
-      <div class="btn-box">
-        <router-link to="/produtos">Todo o Menu </router-link>
       </div>
     </div>
   </section>
@@ -58,23 +55,29 @@
 
 <script>
 import http from "@/services/http.js";
-
-import { RouterView} from 'vue-router';
+import _ from "lodash";
 
 export default {
   data() {
     return {
       products: [],
+      loading: true,
     };
   },
 
-  components:{
-    RouterView
+  computed: {
+    productNotFound() {
+      return !this.loading && this.products.length <= 0
+        ? '<span class="text-danger">Nenhum produto encontrado</span>'
+        : "";
+    },
   },
 
   async mounted() {
     try {
       const { data } = await http.get("produtos");
+
+      this.loading = false;
 
       const items = data;
 
@@ -82,6 +85,23 @@ export default {
     } catch (error) {
       console.log(error.response.data);
     }
+  },
+
+  methods: {
+    search: _.debounce(async function (event) {
+      try {
+        const { data } = await http.get("pesquisa-produtos", {
+          params: {
+            user: event.target.value,
+          },
+        });
+        const items = data;
+
+        this.products = items.data;
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    }, 1000),
   },
 };
 </script>

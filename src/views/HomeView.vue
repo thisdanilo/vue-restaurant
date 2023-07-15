@@ -4,7 +4,6 @@ import Slider from "@/components/Slider.vue";
 import Offer from "@/components/Offer.vue";
 import OurMenu from "@/components/OurMenu.vue";
 import Footer from "@/components/Footer.vue";
-import axios from "axios";
 </script>
 
 <template>
